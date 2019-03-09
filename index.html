@@ -23,14 +23,32 @@
   <body>
     <div id='map'></div>
     <script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoibWFzYXl1a2k1MTYwIiwiYSI6ImNqc2FmdGI5NjEwanY0M3FwNDJsdjd0YzkifQ.vkh1xLO76g2bU25WhVAQ5g'; // replace this with your access token
+    mapboxgl.accessToken = 'pk.eyJ1IjoibWFzYXl1a2k1MTYwIiwiYSI6ImNqc2FmdGI5NjEwanY0M3FwNDJsdjd0YzkifQ.vkh1xLO76g2bU25WhVAQ5g';
     var map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/masayuki5160/cjt0vcsh80c721fmrihsuiqoz', // replace this with your style URL
+      style: 'mapbox://styles/masayuki5160/cjt0vcsh80c721fmrihsuiqoz',
       center: [-87.661557, 41.893748],
       zoom: 10.7
     });
-    // code from the next step will go here
+
+    map.on('click', function(e) {
+      var features = map.queryRenderedFeatures(e.point, {
+      layers: ['anime-spot']
+    });
+
+    if (!features.length) {
+      return;
+    }
+
+    var feature = features[0];
+
+    var popup = new mapboxgl.Popup({ offset: [0, -15] })
+      .setLngLat(feature.geometry.coordinates)
+      .setHTML('<h3>' + feature.properties.city + '</h3><a href="' + feature.properties.url + '"<p>' + feature.properties.anime + '</p></a>')
+      .setLngLat(feature.geometry.coordinates)
+      .addTo(map);
+    });
+
     </script>
   </body>
 </html>
