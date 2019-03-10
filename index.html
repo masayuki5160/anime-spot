@@ -5,6 +5,7 @@
     <title>Points on a map</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+    <script type="text/javascript" src="./js/purl.js"></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
     <style>
       body {
@@ -23,12 +24,29 @@
   <body>
     <div id='map'></div>
     <script>
+
+    const ZOOM_LV = 5.0;
+    const LATITUDE = 140.23703920;
+    const LONGITUDE = 38.15998509;
+
+    var zoom_lv = purl().param('zoom_lv');
+    if (!zoom_lv) {
+      zoom_lv = ZOOM_LV;
+    }
+
+    var lat = purl().param('lat');
+    var long = purl().param('long');
+    if (!lat || !long) {
+      lat = LATITUDE;
+      long = LONGITUDE;
+    }
+
     mapboxgl.accessToken = 'pk.eyJ1IjoibWFzYXl1a2k1MTYwIiwiYSI6ImNqc2FmdGI5NjEwanY0M3FwNDJsdjd0YzkifQ.vkh1xLO76g2bU25WhVAQ5g';
     var map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/masayuki5160/cjt0vcsh80c721fmrihsuiqoz',
-      center: [140.23703920, 38.15998509],
-      zoom: 5.0
+      center: [lat, long],
+      zoom: zoom_lv
     });
 
     map.on('click', function(e) {
